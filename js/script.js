@@ -25,101 +25,119 @@ const chargeDelivery = document.getElementById('charge-delivery');
 const deliveryCost = document.getElementById('delivery-cost');
 
 // Get best price field
-const bestPriceField = document.getElementById('best-price');
+const bestPriceField = document.getElementById('primary-cost');
+// console.log(bestPriceField);
 // Get total price field
-const total = document.getElementById('total-cost');
+const total = document.getElementById('totalCost');
 // Get grand total field
 const grandTotal = document.getElementById('grand-total');
 
+// Update Price
+function updatePrice(product) {
+    const productPrice = document.getElementById(product + '-cost');
+    return productPrice;
+
+}
+
+
 
 // Total Calculation 
-function updateTotal(){
+function updateTotal() {
     // Best price
     const bestPrice = bestPriceField.innerText;
     // Total price
-    const totalCost = parseFloat(bestPrice) + parseFloat(memoryCost.innerText) + parseFloat(storageCost.innerText) + parseFloat(deliveryCost.innerText);
+    const totalCost = parseFloat(bestPrice) + parseFloat(updatePrice('memory').innerText) + parseFloat(updatePrice('storage').innerText) + parseFloat(updatePrice('delivery').innerText);
+    // Set the grand total
     total.innerText = totalCost;
     // Set the grand total
-    grandTotal.innerText = totalCost;    
+    grandTotal.innerText = totalCost;
 }
 
 // Selection function
-function isContain(elem){
+function isContain(elem) {
     //return is class present
     return elem.classList.contains('selected');
 }
 
 //Handle 8GB Memory Button
-memory8GB.addEventListener('click', function(){
-    if(!isContain(memory8GB)){
+memory8GB.addEventListener('click', function () {
+    if (!isContain(memory8GB)) {
         memory8GB.classList.add('selected');
         memory16GB.classList.remove('selected');
     }
-    memoryCost.innerText = '0';
+
+    updatePrice('memory').innerText = '0';
     updateTotal();
+
 });
 
 //Handle 16GB Memory Button
-memory16GB.addEventListener('click', function(){
-    if(!isContain(memory16GB)){
+memory16GB.addEventListener('click', function () {
+    if (!isContain(memory16GB)) {
         memory8GB.classList.remove('selected');
         memory16GB.classList.add('selected');
     }
-    memoryCost.innerText = '180';
+    updatePrice('memory').innerText = '180';
     updateTotal();
+
 });
 
 //Handle SSD256GB Storage Button
-ssd256GB.addEventListener('click', function(){
-    if(!isContain(ssd256GB)){
+ssd256GB.addEventListener('click', function () {
+    if (!isContain(ssd256GB)) {
         ssd256GB.classList.add('selected');
         ssd512GB.classList.remove('selected');
-        ssd1TB.classList.remove('selected');        
+        ssd1TB.classList.remove('selected');
     }
-    storageCost.innerText = '0';
+    updatePrice('storage').innerText = '0';
     updateTotal();
+
 });
 
 //Handle SSD512GB Storage Button
-ssd512GB.addEventListener('click', function(){
-    if(!isContain(ssd512GB)){
+ssd512GB.addEventListener('click', function () {
+    if (!isContain(ssd512GB)) {
         ssd256GB.classList.remove('selected');
         ssd512GB.classList.add('selected');
-        ssd1TB.classList.remove('selected');        
+        ssd1TB.classList.remove('selected');
     }
-    storageCost.innerText = '100';
+    updatePrice('storage').innerText = '100';
     updateTotal();
+
 });
 
 //Handle SSD1TB Storage Button
-ssd1TB.addEventListener('click', function(){
-    if(!isContain(ssd1TB)){
+ssd1TB.addEventListener('click', function () {
+    if (!isContain(ssd1TB)) {
         ssd256GB.classList.remove('selected');
         ssd512GB.classList.remove('selected');
-        ssd1TB.classList.add('selected');        
+        ssd1TB.classList.add('selected');
     }
-    storageCost.innerText = '180';
+    updatePrice('storage').innerText = '180';
     updateTotal();
+
 });
 
 //Handle Free Delivery Button
-freeDelivery.addEventListener('click', function(){
-    if(!isContain(freeDelivery)){
+freeDelivery.addEventListener('click', function () {
+    if (!isContain(freeDelivery)) {
         freeDelivery.classList.add('selected');
-        chargeDelivery.classList.remove('selected');               
+        chargeDelivery.classList.remove('selected');
     }
-    deliveryCost.innerText = '0';
+    updatePrice('delivery').innerText = '0';
     updateTotal();
+
 });
 
 //Handle Charge Delivery Button
-chargeDelivery.addEventListener('click', function(){
-    if(!isContain(chargeDelivery)){
+chargeDelivery.addEventListener('click', function () {
+    if (!isContain(chargeDelivery)) {
         freeDelivery.classList.remove('selected');
-        chargeDelivery.classList.add('selected');               
+        chargeDelivery.classList.add('selected');
     }
-    deliveryCost.innerText = '20';
+    updatePrice('delivery').innerText = '20';
     updateTotal();
+
 });
 
 
@@ -127,17 +145,16 @@ const pomoCode = document.getElementById('pomo-code');
 const discountButton = document.getElementById('discount-button');
 
 // Pomo Code Input
-pomoCode.addEventListener('keyup', function(event){
-    if(event.target.value == 'stevekaku'){
+pomoCode.addEventListener('keyup', function (event) {
+    if (event.target.value == 'stevekaku') {
         discountButton.removeAttribute('disabled');
-    }
-    else{
+    } else {
         discountButton.setAttribute('disabled', true);
     }
 });
 
 // Discount after Pomo Code use
-discountButton.addEventListener('click', function(){
+discountButton.addEventListener('click', function () {
     const totalCost = parseFloat(total.innerText);
     // 20% discount amount
     const discountAmount = totalCost / 5;
